@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" class="floating-scrollbar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Blurry Loading</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #212121;
+        }
+
+        .grid {
+            padding: 4px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 4px;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-position: center;
+            object-fit: cover;
+        }
+
+        .blur-load {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .blur-load::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            animation: pulse 2.5s infinite;
+        }
+
+        .blur-load.loaded>img {
+            opacity: 1;
+        }
+
+        .blur-load.loaded::before {
+            content: none;
+            animation: none;
+        }
+
+        .blur-load>img {
+            opacity: 0;
+            transition: opacity 200ms ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                background-color: rgba(255, 255, 255, 0);
+            }
+
+            50% {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+            100% {
+                background-color: rgba(255, 255, 255, 0);
+            }
+        }
+
+
+        /* Scrollbar */
+        .floating-scrollbar {
+            overflow-y: auto;
+            scrollbar-gutter: stable;
+        }
+
+        /* Chrome, Brave, Edge, Safari */
+        .floating-scrollbar::-webkit-scrollbar {
+            width: 0.5em;
+        }
+
+        .floating-scrollbar:hover::-webkit-scrollbar-thumb {
+            border-radius: 100vw;
+            background: #1f1f1f;
+        }
+
+        /* Firefox */
+        .floating-scrollbar {
+            scrollbar-width: thin;
+        }
+
+        .floating-scrollbar:hover {
+            scrollbar-color: #0056b3 #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid">
+        <div class="blur-load" style="background-image: url('./img/img1_THUMB.jpg')">
+            <img src="./img/img1_HIGH.jpg" loading="lazy" alt="Image 1">
+        </div>
+        <div class="blur-load" style="background-image: url('./img/img2_THUMB.jpg')">
+            <img src="./img/img2_HIGH.jpg" loading="lazy" alt="Image 2">
+        </div>
+        <div class="blur-load" style="background-image: url('./img/img3_THUMB.jpg')">
+            <img src="./img/img3_HIGH.jpg" loading="lazy" alt="Image 3">
+        </div>
+        <div class="blur-load" style="background-image: url('./img/img4_THUMB.jpg')">
+            <img src="./img/img4_HIGH.jpg" loading="lazy" alt="Image 4">
+        </div>
+        <div class="blur-load" style="background-image: url('./img/img5_THUMB.jpg')">
+            <img src="./img/img5_HIGH.jpg" loading="lazy" alt="Image 5">
+        </div>
+        <div class="blur-load" style="background-image: url('./img/img6_THUMB.jpg')">
+            <img src="./img/img6_HIGH.jpg" loading="lazy" alt="Image 6">
+        </div>
+        <div class="blur-load" style="background-image: url('./img/img7_THUMB.jpg')">
+            <img src="./img/img7_HIGH.jpg" loading="lazy" alt="Image 7">
+        </div>
+        <div class="blur-load" style="background-image: url('./img/img8_THUMB.jpg')">
+            <img src="./img/img8_HIGH.jpg" loading="lazy" alt="Image 8">
+        </div>
+        <div class="blur-load" style="background-image: url('./img/img9_THUMB.jpg')">
+            <img src="./img/img9_HIGH.jpg" loading="lazy" alt="Image 9">
+        </div>
+    </div>
+
+    <script>
+        const blurDivs = document.querySelectorAll(".blur-load");
+
+        blurDivs.forEach(div => {
+            const img = div.querySelector("img");
+
+            const loaded = () => {
+                div.classList.add("loaded");
+            }
+            img.complete ? loaded() : img.addEventListener("load", loaded);
+        })
+    </script>
+</body>
+
+</html>
